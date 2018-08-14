@@ -1,0 +1,72 @@
+<!Doctype html>
+<head>
+<title>Login to KMC</title>
+<style>
+#button {
+	background-color: blue;
+    border-radius: 8px;
+    color: white;
+    padding: 10px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+</style>
+<script src="{{url_for('static',filename='jquery.js')}}"></script>
+<script>
+	$(document).ready(function(){
+		$("#button").click(function(){
+			$.post("http://localhost:5000/login",
+				{
+					idno : $('#idno').val(),
+					pswd : $('#pass').val(),
+					crossDomain : true,
+				},
+				function(data, status)
+				{
+					output_data = data['data']
+					if(data['msg']=='success')
+					{
+						alert('login success')
+					}
+				//	$("#link").attr("href",data);
+				}).fail(function(xhr,error){
+					//console.log(error.responseJSON);
+					output_data = jQuery.parseJSON(xhr.responseText)
+					if(output_data['error']=='user does not exist')
+						window.location.href="signup"
+				});
+		});
+	});
+
+</script>
+</head>
+<body>
+	<pre> 			<img src="../static/banner.png" align="center"/></pre>
+	<form>
+	<table align="center" border="2" cellpadding="10" style="border-collapse: collapse" bgcolor="lightgrey">
+		<tr><th>
+			<div>
+				<img src="{{url_for('static',filename='login_logo.png')}}" width="100"" height="100" align="center"/>
+			</div></br>
+	<table align="center" border="0" cellpadding="10" style="border-collapse: collapse">
+		<tr>
+			<th><input id="idno" type="textbox" val="IDNO" placeholder="EX:N140206"></th>
+		</tr>
+		<tr>
+			<th><input id="pass" type="password" val="paswd" placeholder="*********"></th>
+		</tr>
+		<tr>
+			<th><input type="radio" val="1">Remember me 
+				<button id="button" type="button" widht="100%">Sign In</button>
+				<br><br>
+				<a  href="http://localhost:5000/changepasswd">change password?</a>
+			</th>
+		</tr>
+	</table>
+</th></tr>
+</table>
+	</form>
+</body>
+</html>

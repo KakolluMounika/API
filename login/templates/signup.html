@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Sign Up</title>
+	<style>
+		#b,#facebook{
+			width:320px;
+			color: white;
+			background-color: blue;
+			border-radius: 20px;
+		}
+		#facebook{
+			background-image: url('../static/continue_with_facebook.png');
+			width:320px;
+			height : 40px;
+			background-size: 320px 40px;
+		}
+		table{
+			border-collapse: collapse;
+		}
+	</style>
+	<script src="{{url_for('static',filename='jquery.js')}}"></script>
+	<script>
+		$(document).ready(function(){
+			$("#b").click(function(){
+				$.post("http://localhost:5000/registration",{
+					firstname : $("#fn").val(),
+					lastname : $("#ln").val(),
+					idno : $("#idno").val(),
+					pswd : $("#pass").val(),
+					email : $("#e-mail").val(),
+					crossDomain : true,
+				},
+				function(data,status)
+				{
+					output_data = data['data']
+					alert(output_data)
+				}).fail(function(xhr,error){
+					//console.log(error.responseJSON);
+					output_data = jQuery.parseJSON(xhr.responseText)
+					alert(output_data['error'])
+				});
+			});
+		});
+	</script>
+</head>
+<body>
+	<pre>					<img src="../static/cse_logo.png" align="center"/></pre>
+	<table align="center" border="2" cellpadding="10" bgcolor="lightgrey">
+		<tr>
+			<th>
+				<form>
+				<p align="left">ID.NO<br><input id = "idno"type="textbox" name="Idno" val="Idno" size="25">
+				<p align="left">First name<br><input id = "fn"type="textbox" name="first name" val="FirstName" size="25">
+				<p align="left">Last name<br><input id = "ln" type="textbox" name="last name" val="lastName" size="25"></p>
+				<p align="left">Email<br><input type="email" id = "e-mail" name="email" val=email" size="25"></p>
+				<p align="left">Password(6 or more characters)<br><input id="pass" type="password" name="password" val="password" size="25"></p>
+				<p align="left"><font size="1.5px">By clicking Join now, you agree to RGUKT's User Agreement,</font></p>
+				<p align="middle"><font size="1.5px">Privacy Policy anCookie Policy.</font></p>
+				<button type="button" id="b"><b>SIGN UP</b></button>
+				<p>------------------------or-------------------------</p>
+				<button type="button" id="facebook"></button>
+				<p align="center">Already on CSE ?<a id = "redirect" href="http://localhost:5000/">Login</a></p>
+			</form>
+			</th>
+		</tr>
+	</table>
+</body>
+</html>
